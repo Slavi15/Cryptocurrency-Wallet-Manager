@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="springframework.security.spring.core" type="repository">
+    <properties maven-id="org.springframework.security:spring-security-core:5.7.3" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-core-5.7.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-security-crypto-5.7.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-aop-5.3.22.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-beans-5.3.22.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-context-5.3.22.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-core-5.3.22.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-jcl-5.3.22.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-expression-5.3.22.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
