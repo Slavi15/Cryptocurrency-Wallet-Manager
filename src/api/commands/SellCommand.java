@@ -12,11 +12,19 @@ import java.util.concurrent.ExecutionException;
 
 public final class SellCommand extends Command {
 
+    private static final String SELL_COMMAND_INVALID_USAGE = "Usage: sell --offering=<offering_code>";
+    private static final String SELL_COMMAND_NOT_LOGGED_IN = "You must login before selling!";
+    private static final String SELL_COMMAND_LOGS_ERROR = "Log: Server error when fetching %s!";
+    private static final String SELL_COMMAND_INVALID_ASSET = "Invalid offering code: %s provided!";
+    private static final String SELL_COMMAND_ASSET_NOT_OWNED = "You do not own any %s!";
+    private static final String SELL_COMMAND_SUCCESSFUL_OPERATION = "Successfully sold %f of %s for $%f!";
+
     private final Users users;
     private final CryptoAPIClient httpClient;
 
     private static final String DELIMITER = "=";
     private static final int ASSET_ID_INDEX = 0;
+    private static final int COMMAND_ARGS_LENGTH = 2;
 
     public SellCommand(Users users, CryptoAPIClient httpClient) {
         this.users = users;
@@ -26,24 +34,28 @@ public final class SellCommand extends Command {
     @Override
     public String execute(String[] input, SelectionKey key) {
         if (input.length != SELL_COMMAND_ARGUMENTS_LENGTH) {
-            return "Usage: sell --offering=<offering_code>";
+            return SELL_COMMAND_INVALID_USAGE;
         }
 
-        String assetID = input[ASSET_ID_INDEX].split(DELIMITER)[1];
+        String[] assetID = input[ASSET_ID_INDEX].split(DELIMITER);
 
-        return sell(assetID, key);
+        if (assetID.length != COMMAND_ARGS_LENGTH) {
+            return SELL_COMMAND_INVALID_USAGE;
+        }
+
+        return sell(assetID[1].trim(), key);
     }
 
     private String sell(String assetID, SelectionKey key) {
         if (key.attachment() == null) {
-            return "You must login before selling!";
+            return SELL_COMMAND_NOT_LOGGED_IN;
         }
 
         try {
             return sellHelper(assetID, key);
         } catch (ExecutionException | InterruptedException exc) {
             LoggerController.writeLogsErrors(exc.getMessage());
-            return "Log: Server error when fetching " + assetID + "!";
+            return SELL_COMMAND_LOGS_ERROR.formatted(assetID);
         }
     }
 
@@ -54,7 +66,7 @@ public final class SellCommand extends Command {
         CryptoResponse assetsByID = this.httpClient.getAssetByID(assetID);
 
         if (assetsByID.assets() == null || assetsByID.assets().isEmpty()) {
-            return "Invalid offering code: " + assetID + " provided!";
+            return SELL_COMMAND_INVALID_ASSET.formatted(assetID);
         }
 
         Asset asset = assetsByID.assets().getFirst();
@@ -63,7 +75,7 @@ public final class SellCommand extends Command {
         Asset existingAsset = loggedUser.getAsset(assetID);
 
         if (existingAsset == null) {
-            return "You do not own any " + assetID + "!";
+            return SELL_COMMAND_ASSET_NOT_OWNED.formatted(assetID);
         }
 
         double profit = priceUSD * existingAsset.amount();
@@ -73,6 +85,6 @@ public final class SellCommand extends Command {
         loggedUser.depositMoney(profit);
         this.users.addUser(loggedUser);
 
-        return "Successfully sold " + existingAsset.amount() + " of " + assetID + " for $" + profit + "!";
+        return SELL_COMMAND_SUCCESSFUL_OPERATION.formatted(existingAsset.amount(), assetID, profit);
     }
 }

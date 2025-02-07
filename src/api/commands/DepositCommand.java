@@ -7,6 +7,11 @@ import java.nio.channels.SelectionKey;
 
 public final class DepositCommand extends Command {
 
+    private static final String DEPOSIT_COMMAND_INVALID_USAGE = "Usage: deposit-money <amount>";
+    private static final String DEPOSIT_COMMAND_NOT_LOGGED_IN = "You must login before making a deposit!";
+    private static final String DEPOSIT_COMMAND_INVALID_AMOUNT = "Invalid deposit amount provided!";
+    private static final String DEPOSIT_COMMAND_SUCCESSFUL_OPERATION = "User %s successfully added %f to their wallet!";
+
     private final Users users;
 
     private static final int DEPOSIT_AMOUNT_INDEX = 0;
@@ -18,7 +23,7 @@ public final class DepositCommand extends Command {
     @Override
     public String execute(String[] input, SelectionKey key) {
         if (input.length != DEPOSIT_COMMAND_ARGUMENTS_LENGTH) {
-            return "Usage: deposit-money <amount>";
+            return DEPOSIT_COMMAND_INVALID_USAGE;
         }
 
         return deposit(input[DEPOSIT_AMOUNT_INDEX], key);
@@ -27,14 +32,14 @@ public final class DepositCommand extends Command {
     private String deposit(String depositMoney,
                            SelectionKey key) {
         if (key.attachment() == null) {
-            return "You must login before making a deposit!";
+            return DEPOSIT_COMMAND_NOT_LOGGED_IN;
         }
 
         try {
             double depositAmount = Double.parseDouble(depositMoney);
 
             if (Double.compare(depositAmount, 0) <= 0) {
-                return "Invalid deposit amount provided!";
+                return DEPOSIT_COMMAND_INVALID_AMOUNT;
             }
 
             User loggedUser = (User) key.attachment();
@@ -43,9 +48,9 @@ public final class DepositCommand extends Command {
             loggedUser.depositMoney(depositAmount);
             this.users.addUser(loggedUser);
 
-            return "User " + loggedUser.getUserName() + " successfully added " + depositAmount + " to their wallet!";
+            return DEPOSIT_COMMAND_SUCCESSFUL_OPERATION.formatted(loggedUser.getUserName(), depositAmount);
         } catch (NullPointerException | NumberFormatException exc) {
-            return "Invalid deposit amount provided!";
+            return DEPOSIT_COMMAND_INVALID_AMOUNT;
         }
     }
 }

@@ -10,6 +10,15 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public final class SummaryOverallCommand extends Command {
 
+    private static final String SUMMARY_OVERALL_INVALID_USAGE = "Usage: get-wallet-overall-summary";
+    private static final String SUMMARY_OVERALL_NOT_LOGGED = "You must login to get wallet overall summary!";
+    private static final String SUMMARY_OVERALL_EMPTY_WALLET = "Empty wallet provided!";
+    private static final String SUMMARY_OVERALL_SUCCESSFUL_OPERATION =
+        "Wallet Overall Summary" + System.lineSeparator() +
+        "Total income: $%f" + System.lineSeparator() +
+        "Total expenses: $%f" + System.lineSeparator() +
+        "Overall earnings: $%f" + System.lineSeparator();
+
     private final CryptoAPIClient cryptoAPIClient;
 
     public SummaryOverallCommand(CryptoAPIClient cryptoAPIClient) {
@@ -19,7 +28,7 @@ public final class SummaryOverallCommand extends Command {
     @Override
     public String execute(String[] input, SelectionKey key) {
         if (input.length != LIST_SUMMARY_HELP_LOGOUT_COMMAND_ARGUMENTS_LENGTH) {
-            return "Usage: get-wallet-overall-summary";
+            return SUMMARY_OVERALL_INVALID_USAGE;
         }
 
         return getWalletOverallSummary(key);
@@ -27,13 +36,13 @@ public final class SummaryOverallCommand extends Command {
 
     private String getWalletOverallSummary(SelectionKey key) {
         if (key.attachment() == null) {
-            return "You must login to get wallet overall summary!";
+            return SUMMARY_OVERALL_NOT_LOGGED;
         }
 
         User loggedUser = (User) key.attachment();
 
         if (loggedUser.getWallet().isEmpty()) {
-            return "Empty wallet provided!";
+            return SUMMARY_OVERALL_EMPTY_WALLET;
         }
 
         return calculateEarnings(loggedUser);
@@ -58,9 +67,6 @@ public final class SummaryOverallCommand extends Command {
 
         double overallEarnings = totalIncome.get() - totalExpenses.get();
 
-        return "Wallet Overall Summary" + System.lineSeparator() +
-            "Total income: " + totalIncome + "$" + System.lineSeparator() +
-            "Total expenses: " + totalExpenses + "$" + System.lineSeparator() +
-            "Overall earnings: " + overallEarnings + "$" + System.lineSeparator();
+        return SUMMARY_OVERALL_SUCCESSFUL_OPERATION.formatted(totalIncome.getAcquire(), totalExpenses.getAcquire(), overallEarnings);
     }
 }

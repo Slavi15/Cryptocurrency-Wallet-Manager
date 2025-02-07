@@ -7,6 +7,9 @@ import java.nio.channels.SelectionKey;
 
 public final class ListCommand extends Command {
 
+    private static final String LIST_COMMAND_INVALID_USAGE = "Usage: list-offerings";
+    private static final String LIST_COMMAND_NOT_LOGGED_IN = "You must login before listing offerings!";
+
     private final CryptoAPIClient cryptoAPIClient;
 
     public ListCommand(CryptoAPIClient cryptoAPIClient) {
@@ -16,7 +19,7 @@ public final class ListCommand extends Command {
     @Override
     public String execute(String[] input, SelectionKey key) {
         if (input.length != LIST_SUMMARY_HELP_LOGOUT_COMMAND_ARGUMENTS_LENGTH) {
-            return "Usage: list-offerings";
+            return LIST_COMMAND_INVALID_USAGE;
         }
 
         return list(key);
@@ -24,12 +27,12 @@ public final class ListCommand extends Command {
 
     private String list(SelectionKey key) {
         if (key.attachment() == null) {
-            return "You must login before listing offerings!";
+            return LIST_COMMAND_NOT_LOGGED_IN;
         }
 
         CryptoResponse offerings = this.cryptoAPIClient.getCryptoAssets();
 
-        StringBuilder result = new StringBuilder("Cryptocurrency exchange: " + System.lineSeparator());
+        StringBuilder result = new StringBuilder("Cryptocurrency exchange:" + System.lineSeparator());
 
         offerings.assets()
             .forEach(asset ->

@@ -1,10 +1,6 @@
 package api.commands;
 
-import api.models.users.User;
-
 import java.nio.channels.SelectionKey;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 public abstract sealed class Command
     permits BuyCommand, DepositCommand, HelpCommand, ListCommand, LoginCommand, LogoutCommand, RegisterCommand,
@@ -19,8 +15,6 @@ public abstract sealed class Command
     protected static final int BUY_COMMAND_ARGUMENTS_LENGTH = 2;
     protected static final int SELL_COMMAND_ARGUMENTS_LENGTH = 1;
     protected static final int LIST_SUMMARY_HELP_LOGOUT_COMMAND_ARGUMENTS_LENGTH = 0;
-
-    protected Set<User> loggedUsers = new LinkedHashSet<>();
 
     public abstract String execute(String[] input, SelectionKey key);
 }

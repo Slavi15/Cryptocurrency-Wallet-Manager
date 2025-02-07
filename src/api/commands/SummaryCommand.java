@@ -7,10 +7,14 @@ import java.nio.channels.SelectionKey;
 
 public final class SummaryCommand extends Command {
 
+    private static final String SUMMARY_COMMAND_INVALID_USAGE = "Usage: get-wallet-summary";
+    private static final String SUMMARY_COMMAND_NOT_LOGGED = "You must login to get wallet summary!";
+    private static final String SUMMARY_COMMAND_EMPTY_WALLET = "Nothing to show in wallet!";
+
     @Override
     public String execute(String[] input, SelectionKey key) {
         if (input.length != LIST_SUMMARY_HELP_LOGOUT_COMMAND_ARGUMENTS_LENGTH) {
-            return "Usage: get-wallet-summary";
+            return SUMMARY_COMMAND_INVALID_USAGE;
         }
 
         return getWalletSummary(key);
@@ -18,16 +22,16 @@ public final class SummaryCommand extends Command {
 
     private String getWalletSummary(SelectionKey key) {
         if (key.attachment() == null) {
-            return "You must login to get wallet summary!";
+            return SUMMARY_COMMAND_NOT_LOGGED;
         }
 
         User loggedUser = (User) key.attachment();
 
         if (loggedUser.getWallet().isEmpty()) {
-            return "Nothing to show in wallet!";
+            return SUMMARY_COMMAND_EMPTY_WALLET;
         }
 
-        StringBuilder result = new StringBuilder(loggedUser.getUserName() + "'s wallet: " + System.lineSeparator());
+        StringBuilder result = new StringBuilder(loggedUser.getUserName() + "'s wallet:" + System.lineSeparator());
 
         for (Asset asset : loggedUser.getWallet().values()) {
             result.append(asset.getInformation());

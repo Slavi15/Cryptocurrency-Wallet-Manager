@@ -18,7 +18,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class CryptoAPIHttpClient {
 
-    private static final int MAX_RESULTS = 100;
     protected static final String ASSETS_ENDPOINT = "assets";
 
     private static final String API_SCHEME = "https";
@@ -62,7 +61,6 @@ public class CryptoAPIHttpClient {
                 List<Asset> filtered = assets.stream()
                     .filter(asset -> asset.isCrypto() == 1 && asset.priceUSD() > 0)
                     .sorted((a, b) -> Double.compare(b.priceUSD(), a.priceUSD()))
-                    .limit(MAX_RESULTS)
                     .toList();
 
                 this.cryptoAssets.put(ASSETS_ENDPOINT, new CryptoResponse(filtered));

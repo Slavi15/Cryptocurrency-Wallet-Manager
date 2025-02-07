@@ -7,6 +7,10 @@ import java.util.Set;
 
 public final class LogoutCommand extends Command {
 
+    private static final String LOGOUT_COMMAND_INVALID_COMMAND_USAGE = "Usage: logout";
+    private static final String LOGOUT_COMMAND_NOT_LOGGED_IN = "You must login before logging out!";
+    private static final String LOGOUT_COMMAND_SUCCESSFUL_OPERATION = "You have successfully logged out!";
+
     private final Set<User> loggedUsers;
 
     public LogoutCommand(Set<User> loggedUsers) {
@@ -16,7 +20,7 @@ public final class LogoutCommand extends Command {
     @Override
     public String execute(String[] input, SelectionKey key) {
         if (input.length != LIST_SUMMARY_HELP_LOGOUT_COMMAND_ARGUMENTS_LENGTH) {
-            return "Usage: logout";
+            return LOGOUT_COMMAND_INVALID_COMMAND_USAGE;
         }
 
         return logout(key);
@@ -24,13 +28,13 @@ public final class LogoutCommand extends Command {
 
     private String logout(SelectionKey key) {
         if (key.attachment() == null) {
-            return "You must login before logging out!";
+            return LOGOUT_COMMAND_NOT_LOGGED_IN;
         }
 
         User loggedUser = (User) key.attachment();
         this.loggedUsers.remove(loggedUser);
         key.attach(null);
 
-        return "You have successfully logged out!";
+        return LOGOUT_COMMAND_SUCCESSFUL_OPERATION;
     }
 }
