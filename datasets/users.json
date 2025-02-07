@@ -1,0 +1,11 @@
+{
+  "users": [
+    {
+      "userName": "Test",
+      "email": "test@test.com",
+      "password": "$2a$10$thFKYI/DEFZxtYhvuiuf4e5pobQr7mehijlq/7ksPjYfP0ON6z91q",
+      "deposit": 0.0,
+      "wallet": {}
+    }
+  ]
+}
