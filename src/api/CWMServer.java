@@ -7,7 +7,9 @@ import api.fetch.CryptoAPIClient;
 import api.fetch.CryptoAPIClientRunnable;
 import api.models.users.Users;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
@@ -22,8 +24,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class CWMServer {
-
-    private static final String COIN_API_KEY = "EC644FDD-5C53-44E0-A4BD-9C407D7E6DB0";
 
     private static final String SERVER_HOST = "localhost";
     private static final int SERVER_PORT = 8080;
@@ -40,7 +40,7 @@ public class CWMServer {
     private final CryptoAPIClient cryptoAPIClient;
     private final CommandController cmdExecutor;
 
-    public CWMServer() {
+    public CWMServer(String apiKey) {
         Users users = null;
 
         try {
@@ -49,7 +49,7 @@ public class CWMServer {
             LoggerController.writeLogsErrors(exc.getMessage());
         }
 
-        this.cryptoAPIClient = new CryptoAPIClient(COIN_API_KEY);
+        this.cryptoAPIClient = new CryptoAPIClient(apiKey);
         this.cmdExecutor = new CommandController(users, this.cryptoAPIClient);
         this.isRunning = true;
     }
@@ -189,7 +189,14 @@ public class CWMServer {
     }
 
     public static void main(String[] args) throws IOException {
-        CWMServer server = new CWMServer();
+        String apiKey;
+
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            System.out.println("Enter API-KEY: ");
+            apiKey = reader.readLine();
+        }
+
+        CWMServer server = new CWMServer(apiKey);
 
         Thread serverThread = new Thread(() -> {
             System.out.println("Starting server on " + SERVER_HOST + ":" + SERVER_PORT + "...");
