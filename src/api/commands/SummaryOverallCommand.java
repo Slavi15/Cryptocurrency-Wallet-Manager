@@ -67,6 +67,10 @@ public final class SummaryOverallCommand extends Command {
 
         double overallEarnings = totalIncome.get() - totalExpenses.get();
 
-        return SUMMARY_OVERALL_SUCCESSFUL_OPERATION.formatted(totalIncome.getAcquire(), totalExpenses.getAcquire(), overallEarnings);
+        return SUMMARY_OVERALL_SUCCESSFUL_OPERATION.formatted(
+            totalIncome.getAcquire(),
+            totalExpenses.getAcquire(),
+            overallEarnings
+        );
     }
 }

@@ -115,9 +115,8 @@ public class CryptoAPIClientTest {
     @Test
     void testFetchCryptoAssets_validResponse() throws Exception {
         List<Asset> assets = List.of(this.mockAsset);
-        CryptoResponse apiResponse = new CryptoResponse(assets);
 
-        String jsonResponse = this.gson.toJson(apiResponse, CryptoResponse.class);
+        String jsonResponse = this.gson.toJson(assets, new TypeToken<List<Asset>>() { }.getType());
 
         when(this.mockHttpResponse.statusCode()).thenReturn(HttpURLConnection.HTTP_OK);
         when(this.mockHttpResponse.body()).thenReturn(jsonResponse);
@@ -128,9 +127,7 @@ public class CryptoAPIClientTest {
             .thenReturn(CompletableFuture.completedFuture(this.mockHttpResponse));
 
         when(this.mockRequest.getAssetID()).thenReturn("BTC");
-        CompletableFuture<CryptoResponse> future = this.cryptoAPIClient.fetchCryptoAssets(this.mockRequest);
-
-        CryptoResponse response = future.join();
+        CryptoResponse response = this.cryptoAPIClient.fetchCryptoAssets(this.mockRequest).join();
 
         assertNotNull(response, "Response should not be null!");
         assertEquals(1, response.assets().size(),

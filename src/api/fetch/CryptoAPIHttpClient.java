@@ -56,9 +56,11 @@ public class CryptoAPIHttpClient {
         return this.httpClient
             .sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString())
             .thenApply(res -> {
-                CryptoResponse body = this.gson.fromJson(res.body(), CryptoResponse.class);
+                List<Asset> assets = this.gson.fromJson(
+                    res.body(),
+                    new TypeToken<List<Asset>>() { }.getType());
 
-                List<Asset> filtered = body.assets().stream()
+                List<Asset> filtered = assets.stream()
                     .filter(asset -> asset.isCrypto() == 1 && asset.priceUSD() > 0)
                     .sorted((a, b) -> Double.compare(b.priceUSD(), a.priceUSD()))
                     .toList();

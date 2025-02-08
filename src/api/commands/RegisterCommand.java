@@ -10,7 +10,7 @@ public final class RegisterCommand extends Command {
     private static final String REGISTER_COMMAND_INVALID_COMMAND_USAGE =
         "Usage: register <username> <email> <password>";
     private static final String REGISTER_COMMAND_USER_LOGGED_IN = "User %s is already logged in!";
-    private static final String REGISTER_COMMAND_USER_ALREADY_REGISTERED = "User $%s already exists in DB!";
+    private static final String REGISTER_COMMAND_USER_ALREADY_REGISTERED = "User %s already exists in DB!";
     private static final String REGISTER_COMMAND_INVALID_EMAIL = "Invalid email address provided!";
     private static final String REGISTER_COMMAND_INVALID_USERNAME = "Invalid username provided!";
     private static final String REGISTER_COMMAND_SUCCESSFUL_REGISTER_DB = "User %s has been successfully registered!";
