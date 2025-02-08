@@ -11,12 +11,12 @@ public class CryptoAPIClient extends CryptoAPIHttpClient {
 
     private static final int MAX_RESULTS = 100;
 
-    public CryptoAPIClient() {
-
+    public CryptoAPIClient(String apiKey) {
+        super(apiKey);
     }
 
-    protected CryptoAPIClient(HttpClient httpClient, Map<String, CryptoResponse> cryptoAssets) {
-        super(httpClient, cryptoAssets);
+    protected CryptoAPIClient(String apiKey, HttpClient httpClient, Map<String, CryptoResponse> cryptoAssets) {
+        super(apiKey, httpClient, cryptoAssets);
     }
 
     public CryptoResponse getCryptoAssets() {

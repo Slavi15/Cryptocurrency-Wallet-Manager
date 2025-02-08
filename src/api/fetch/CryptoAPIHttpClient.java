@@ -24,41 +24,41 @@ public class CryptoAPIHttpClient {
     private static final String API_HOST = "rest.coinapi.io";
     private static final String API_PATH = "/v1/assets/%s";
 
+    private final String apiKey;
     private final HttpClient httpClient;
     private final Gson gson;
 
     protected final Map<String, CryptoResponse> cryptoAssets;
 
-    protected CryptoAPIHttpClient() {
+    protected CryptoAPIHttpClient(String apiKey) {
+        this.apiKey = apiKey;
+
         this.httpClient = HttpClient.newHttpClient();
         this.gson = new Gson();
         this.cryptoAssets = new ConcurrentHashMap<>();
     }
 
-    protected CryptoAPIHttpClient(HttpClient httpClient, Map<String, CryptoResponse> cryptoAssets) {
+    protected CryptoAPIHttpClient(String apiKey, HttpClient httpClient, Map<String, CryptoResponse> cryptoAssets) {
+        this.apiKey = apiKey;
+
         this.httpClient = httpClient;
         this.gson = new Gson();
         this.cryptoAssets = cryptoAssets;
     }
 
     protected CompletableFuture<CryptoResponse> fetchCryptoAssets(CryptoRequest request) throws Exception {
-        var apiKey = System.getenv("COIN-API-KEY");
-
-        if (apiKey == null) {
-            throw new CoinAPIException("Missing Coin API Key!");
-        }
-
-        HttpRequest httpRequest = HttpRequest.newBuilder().uri(getURI(request))
-            .header("X-CoinAPI-Key", apiKey).GET().build();
+        HttpRequest httpRequest = HttpRequest.newBuilder()
+            .uri(getURI(request))
+            .header("X-CoinAPI-Key", this.apiKey)
+            .GET()
+            .build();
 
         return this.httpClient
             .sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString())
             .thenApply(res -> {
-                List<Asset> assets = this.gson.fromJson(
-                    res.body(),
-                    new TypeToken<List<Asset>>() { }.getType());
+                CryptoResponse body = this.gson.fromJson(res.body(), CryptoResponse.class);
 
-                List<Asset> filtered = assets.stream()
+                List<Asset> filtered = body.assets().stream()
                     .filter(asset -> asset.isCrypto() == 1 && asset.priceUSD() > 0)
                     .sorted((a, b) -> Double.compare(b.priceUSD(), a.priceUSD()))
                     .toList();

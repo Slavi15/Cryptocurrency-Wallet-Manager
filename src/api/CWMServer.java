@@ -23,6 +23,8 @@ import java.util.concurrent.TimeUnit;
 
 public class CWMServer {
 
+    private static final String COIN_API_KEY = "EC644FDD-5C53-44E0-A4BD-9C407D7E6DB0";
+
     private static final String SERVER_HOST = "localhost";
     private static final int SERVER_PORT = 8080;
     private static final int BUFFER_SIZE = 32_768;
@@ -47,7 +49,7 @@ public class CWMServer {
             LoggerController.writeLogsErrors(exc.getMessage());
         }
 
-        this.cryptoAPIClient = new CryptoAPIClient();
+        this.cryptoAPIClient = new CryptoAPIClient(COIN_API_KEY);
         this.cmdExecutor = new CommandController(users, this.cryptoAPIClient);
         this.isRunning = true;
     }
