@@ -5,11 +5,12 @@ import api.utility.FilesCreator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.io.RandomAccessFile;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 
 public class UsersController {
@@ -29,8 +30,14 @@ public class UsersController {
     public static Users readUsers() throws IOException {
         FilesCreator.checkPath(USERS_DB, INITIAL_OBJECT);
 
-        try (BufferedReader reader = Files.newBufferedReader(USERS_DB)) {
-            return GSON.fromJson(reader, Users.class);
+        try (RandomAccessFile file = new RandomAccessFile(USERS_DB.toFile(), "r");
+             FileChannel channel = file.getChannel()) {
+            MappedByteBuffer buffer = channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size());
+            byte[] bytes = new byte[buffer.remaining()];
+            buffer.get(bytes);
+
+            String json = new String(bytes, StandardCharsets.UTF_8);
+            return GSON.fromJson(json, Users.class);
         } catch (IOException exc) {
             LoggerController.writeLogsErrors(exc.getMessage());
             throw new IOException(LOGIN_FILE_ERROR_MESSAGE);
@@ -40,13 +47,17 @@ public class UsersController {
     public static void writeUsers(Users users) throws IOException {
         if (users == null) {
             LoggerController.writeLogsErrors("Error when trying to write null users to DB!");
+            return;
         }
 
         FilesCreator.checkPath(USERS_DB, INITIAL_OBJECT);
         String jsonUsers = GSON.toJson(users);
 
-        try (BufferedWriter writer = Files.newBufferedWriter(USERS_DB)) {
-            writer.write(jsonUsers);
+        try (RandomAccessFile file = new RandomAccessFile(USERS_DB.toFile(), "rw");
+             FileChannel channel = file.getChannel()) {
+            byte[] bytes = jsonUsers.getBytes(StandardCharsets.UTF_8);
+            MappedByteBuffer buffer = channel.map(FileChannel.MapMode.READ_WRITE, 0, bytes.length);
+            buffer.put(bytes);
         } catch (IOException exc) {
             LoggerController.writeLogsErrors(exc.getMessage());
             throw new IOException(LOGIN_FILE_ERROR_MESSAGE);

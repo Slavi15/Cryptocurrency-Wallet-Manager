@@ -4,7 +4,7 @@
       "userName": "Test",
       "email": "test@test.com",
       "password": "$2a$10$GgFVOcKKgkQOjBmAypKcLeiegKqu4TIPx5cMfXx5BnaZsbaHkbLVi",
-      "deposit": 0.0,
+      "deposit": 5000.0,
       "wallet": {
         "ETH": {
           "asset_id": "ETH",
@@ -33,6 +33,13 @@
           "price_usd": 115.000345295842,
           "type_is_crypto": 1,
           "amount": 21.739065161662527
+        },
+        "DOGE": {
+          "asset_id": "DOGE",
+          "name": "DogeCoin",
+          "price_usd": 0.260079097100642,
+          "type_is_crypto": 1,
+          "amount": 19224.920632761063
         }
       }
     }
