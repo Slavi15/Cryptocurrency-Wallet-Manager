@@ -23,8 +23,8 @@ public class UsersController {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     private static final String LOGIN_FILE_ERROR_MESSAGE =
-        "Unable to connect to the server. " +
-            "Try again later or contact administrator by providing the logs in errors/logs.log";
+        "Unable to connect to the server! " +
+            "Try again later or contact administrator by providing the logs in errors/logs.log!";
 
     public static Users readUsers() throws IOException {
         FilesCreator.checkPath(USERS_DB, INITIAL_OBJECT);

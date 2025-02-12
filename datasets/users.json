@@ -1,0 +1,40 @@
+{
+  "users": [
+    {
+      "userName": "Test",
+      "email": "test@test.com",
+      "password": "$2a$10$GgFVOcKKgkQOjBmAypKcLeiegKqu4TIPx5cMfXx5BnaZsbaHkbLVi",
+      "deposit": 0.0,
+      "wallet": {
+        "ETH": {
+          "asset_id": "ETH",
+          "name": "Ethereum",
+          "price_usd": 2586.23443994408,
+          "type_is_crypto": 1,
+          "amount": 4.8332818583416115
+        },
+        "BTC": {
+          "asset_id": "BTC",
+          "name": "Bitcoin",
+          "price_usd": 94895.2970385392,
+          "type_is_crypto": 1,
+          "amount": 10.564274851185315
+        },
+        "ETC": {
+          "asset_id": "ETC",
+          "name": "Ethereum Classic",
+          "price_usd": 20.188757706862,
+          "type_is_crypto": 1,
+          "amount": 123.83129444117652
+        },
+        "LTC": {
+          "asset_id": "LTC",
+          "name": "Litecoin",
+          "price_usd": 115.000345295842,
+          "type_is_crypto": 1,
+          "amount": 21.739065161662527
+        }
+      }
+    }
+  ]
+}
