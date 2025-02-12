@@ -45,8 +45,7 @@ public class CWMClient {
                     }
                 }
 
-                if (LOGOUT_COMMAND.equals(message) &&
-                    line != null && line.equals(LOGOUT_COMMAND_SUCCESSFUL_OPERATION)) {
+                if (LOGOUT_COMMAND.equals(message) && LOGOUT_COMMAND_SUCCESSFUL_OPERATION.equals(line)) {
                     break;
                 }
             }
