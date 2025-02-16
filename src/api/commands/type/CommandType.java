@@ -2,7 +2,7 @@ package api.commands.type;
 
 public enum CommandType {
     LOGIN("login", 2),
-    REGISTER("register", 3),
+    REGISTER("register", 2),
     DEPOSIT("deposit-money", 1),
     BUY("buy", 2),
     SELL("sell", 1),

@@ -67,7 +67,6 @@ public class SummaryCommandTest {
     @Test
     void testSummary_successfulOperation() {
         when(mockKey.attachment()).thenReturn(this.mockUser);
-        when(this.mockUser.getUserName()).thenReturn("Test");
 
         Map<String, Asset> wallet = new HashMap<>();
         wallet.put("BTC", new Asset("BTC", "Bitcoin", 200.0, 1, 1.0));
@@ -78,7 +77,7 @@ public class SummaryCommandTest {
         String[] input = { };
         String result = this.summaryCommand.execute(input, mockKey);
 
-        String expected = "Test's wallet:" + System.lineSeparator() +
+        String expected = "Wallet:" + System.lineSeparator() +
             "BTC: Bitcoin - $200.0" + System.lineSeparator() +
             "ETH: Ethereum - $100.0" + System.lineSeparator();
 

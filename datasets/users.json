@@ -1,7 +1,6 @@
 {
   "users": [
     {
-      "userName": "Test",
       "email": "test@test.com",
       "password": "$2a$10$UFh03aw/Lh3oX7gGVtRYmOlbXPeXyKN9xV6hy.9hwiKp0WnW0WKnS",
       "deposit": 0.0,

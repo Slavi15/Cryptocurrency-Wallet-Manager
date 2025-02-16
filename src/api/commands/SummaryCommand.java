@@ -32,7 +32,7 @@ public final class SummaryCommand extends Command {
             return SUMMARY_COMMAND_EMPTY_WALLET;
         }
 
-        StringBuilder result = new StringBuilder(loggedUser.getUserName() + "'s wallet:" + System.lineSeparator());
+        StringBuilder result = new StringBuilder("Wallet:" + System.lineSeparator());
 
         for (Asset asset : loggedUser.getWallet().values()) {
             result.append(asset.getInformation());

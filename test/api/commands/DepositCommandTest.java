@@ -17,7 +17,8 @@ public class DepositCommandTest {
     private static final String DEPOSIT_COMMAND_INVALID_USAGE = "Usage: deposit-money <amount>";
     private static final String DEPOSIT_COMMAND_NOT_LOGGED_IN = "You must login before making a deposit!";
     private static final String DEPOSIT_COMMAND_INVALID_AMOUNT = "Invalid deposit amount provided!";
-    private static final String DEPOSIT_COMMAND_SUCCESSFUL_OPERATION = "User %s successfully added %f to their wallet!";
+    private static final String DEPOSIT_COMMAND_SUCCESSFUL_OPERATION =
+        "User with email %s successfully added %f to their wallet!";
 
     @InjectMocks
     private DepositCommand depositCommand;
@@ -78,11 +79,11 @@ public class DepositCommandTest {
     @Test
     void testDeposit_successfulOperation() {
         when(mockKey.attachment()).thenReturn(this.mockUser);
-        when(this.mockUser.getUserName()).thenReturn("Test");
+        when(this.mockUser.getEmail()).thenReturn("test@test.com");
 
         String[] input = { "100" };
         String result = this.depositCommand.execute(input, mockKey);
 
-        assertEquals(DEPOSIT_COMMAND_SUCCESSFUL_OPERATION.formatted("Test", 100.0), result);
+        assertEquals(DEPOSIT_COMMAND_SUCCESSFUL_OPERATION.formatted("test@test.com", 100.0), result);
     }
 }

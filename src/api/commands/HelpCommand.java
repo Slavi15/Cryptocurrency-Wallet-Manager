@@ -20,9 +20,9 @@ public final class HelpCommand extends Command {
     private String help() {
         return "Commands:" + System.lineSeparator() +
             "login <email> <password>" + System.lineSeparator() +
-            "register <username> <email> <password>" + System.lineSeparator() +
+            "register <email> <password>" + System.lineSeparator() +
             "deposit <amount>" + System.lineSeparator() +
-            "list-offerings" + System.lineSeparator() +
+            "list-offerings --page=<page> --size=<size>" + System.lineSeparator() +
             "buy --offering=<offering_code> --money=<amount>" + System.lineSeparator() +
             "sell --offering=<offering_code>" + System.lineSeparator() +
             "get-wallet-summary" + System.lineSeparator() +

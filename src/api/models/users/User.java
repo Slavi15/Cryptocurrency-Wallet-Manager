@@ -9,26 +9,20 @@ import java.util.Objects;
 
 public class User {
 
-    private final String userName;
     private final String email;
     private final String password;
     private double deposit;
     private final Map<String, Asset> wallet;
 
-    public User(String userName, String email, String password) {
+    public User(String email, String password) {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String bCryptPassword = bCryptPasswordEncoder.encode(password);
 
-        this.userName = userName;
         this.email = email;
         this.password = bCryptPassword;
 
         this.deposit = 0;
         this.wallet = new LinkedHashMap<>();
-    }
-
-    public String getUserName() {
-        return this.userName;
     }
 
     public String getEmail() {
@@ -76,13 +70,12 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(userName, user.userName) &&
-            Objects.equals(email, user.email) &&
+        return Objects.equals(email, user.email) &&
             Objects.equals(password, user.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userName, email, password);
+        return Objects.hash(email, password);
     }
 }
