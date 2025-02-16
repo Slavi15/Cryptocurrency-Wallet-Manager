@@ -55,7 +55,7 @@ public final class SellCommand extends Command {
         try {
             return sellHelper(assetID, key);
         } catch (ExecutionException | InterruptedException exc) {
-            LoggerController.writeLogsErrors(exc.getMessage());
+            LoggerController.writeLogsErrors(exc.getMessage(), exc.getStackTrace());
             return SELL_COMMAND_LOGS_ERROR.formatted(assetID);
         }
     }

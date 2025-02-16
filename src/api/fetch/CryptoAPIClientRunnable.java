@@ -19,7 +19,7 @@ public class CryptoAPIClientRunnable implements Runnable {
             CryptoResponse cryptoResponse = this.cryptoAPIClient.fetchCryptoAssets(request).join();
             System.out.println("Fetched " + cryptoResponse.assets().size() + " crypto assets!");
         } catch (Exception exc) {
-            LoggerController.writeLogsErrors(exc.getMessage());
+            LoggerController.writeLogsErrors(exc.getMessage(), exc.getStackTrace());
         }
     }
 }

@@ -46,7 +46,7 @@ public class CWMServer {
         try {
             users = UsersController.readUsers();
         } catch (IOException exc) {
-            LoggerController.writeLogsErrors(exc.getMessage());
+            LoggerController.writeLogsErrors(exc.getMessage(), exc.getStackTrace());
         }
 
         this.cryptoAPIClient = new CryptoAPIClient(apiKey);
@@ -65,7 +65,7 @@ public class CWMServer {
 
             startServer();
         } catch (Exception exc) {
-            LoggerController.writeLogsErrors(exc.getMessage());
+            LoggerController.writeLogsErrors(exc.getMessage(), exc.getStackTrace());
         }
     }
 
@@ -73,7 +73,7 @@ public class CWMServer {
         try {
             UsersController.writeUsers(this.cmdExecutor.getUsers());
         } catch (IOException exc) {
-            LoggerController.writeLogsErrors(exc.getMessage());
+            LoggerController.writeLogsErrors(exc.getMessage(), exc.getStackTrace());
         }
     }
 
@@ -89,7 +89,7 @@ public class CWMServer {
                 handleRequests(selector);
             }
         } catch (Exception exc) {
-            LoggerController.writeLogsErrors(exc.getMessage());
+            LoggerController.writeLogsErrors(exc.getMessage(), exc.getStackTrace());
         }
     }
 
@@ -159,7 +159,7 @@ public class CWMServer {
             sc.close();
             key.cancel();
         } catch (IOException exc) {
-            LoggerController.writeLogsErrors(exc.getMessage());
+            LoggerController.writeLogsErrors(exc.getMessage(), exc.getStackTrace());
         }
     }
 

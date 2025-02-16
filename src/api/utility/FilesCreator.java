@@ -25,7 +25,7 @@ public class FilesCreator {
                 }
             }
         } catch (IOException exc) {
-            LoggerController.writeLogsErrors(exc.getMessage());
+            LoggerController.writeLogsErrors(exc.getMessage(), exc.getStackTrace());
         }
     }
 }

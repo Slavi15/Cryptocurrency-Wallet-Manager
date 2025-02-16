@@ -32,14 +32,13 @@ public class UsersController {
         try (BufferedReader reader = Files.newBufferedReader(USERS_DB)) {
             return GSON.fromJson(reader, Users.class);
         } catch (IOException exc) {
-            LoggerController.writeLogsErrors(exc.getMessage());
+            LoggerController.writeLogsErrors(exc.getMessage(), exc.getStackTrace());
             throw new IOException(LOGIN_FILE_ERROR_MESSAGE);
         }
     }
 
     public static void writeUsers(Users users) throws IOException {
         if (users == null) {
-            LoggerController.writeLogsErrors("Error when trying to write null users to DB!");
             return;
         }
 
@@ -49,7 +48,7 @@ public class UsersController {
         try (BufferedWriter writer = Files.newBufferedWriter(USERS_DB)) {
             writer.write(jsonUsers);
         } catch (IOException exc) {
-            LoggerController.writeLogsErrors(exc.getMessage());
+            LoggerController.writeLogsErrors(exc.getMessage(), exc.getStackTrace());
             throw new IOException(LOGIN_FILE_ERROR_MESSAGE);
         }
     }

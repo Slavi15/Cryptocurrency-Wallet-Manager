@@ -51,7 +51,7 @@ public class CWMClient {
             }
         } catch (IOException exc) {
             System.out.println(NETWORK_ERROR_MESSAGE);
-            LoggerController.writeLogsErrors(exc.getMessage());
+            LoggerController.writeLogsErrors(exc.getMessage(), exc.getStackTrace());
         }
     }
 }

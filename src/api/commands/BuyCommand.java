@@ -68,7 +68,7 @@ public final class BuyCommand extends Command {
         try {
             return buyHelper(assetID, moneyAmount, key);
         } catch (ExecutionException | InterruptedException exc) {
-            LoggerController.writeLogsErrors(exc.getMessage());
+            LoggerController.writeLogsErrors(exc.getMessage(), exc.getStackTrace());
             return BUY_COMMAND_LOGS_ERROR.formatted(assetID);
         }
     }
