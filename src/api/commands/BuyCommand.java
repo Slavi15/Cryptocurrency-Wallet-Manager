@@ -1,5 +1,6 @@
 package api.commands;
 
+import api.commands.type.CommandType;
 import api.controllers.LoggerController;
 import api.fetch.CryptoAPIClient;
 import api.models.asset.Asset;
@@ -35,7 +36,7 @@ public final class BuyCommand extends Command {
 
     @Override
     public String execute(String[] input, SelectionKey key) {
-        if (input.length != BUY_COMMAND_ARGUMENTS_LENGTH) {
+        if (input.length != CommandType.BUY.getArgs()) {
             return BUY_COMMAND_INVALID_USAGE;
         }
 

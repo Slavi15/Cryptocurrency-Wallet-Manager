@@ -5,12 +5,11 @@ import api.utility.FilesCreator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
-import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class UsersController {
@@ -30,14 +29,8 @@ public class UsersController {
     public static Users readUsers() throws IOException {
         FilesCreator.checkPath(USERS_DB, INITIAL_OBJECT);
 
-        try (RandomAccessFile file = new RandomAccessFile(USERS_DB.toFile(), "r");
-             FileChannel channel = file.getChannel()) {
-            MappedByteBuffer buffer = channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size());
-            byte[] bytes = new byte[buffer.remaining()];
-            buffer.get(bytes);
-
-            String json = new String(bytes, StandardCharsets.UTF_8);
-            return GSON.fromJson(json, Users.class);
+        try (BufferedReader reader = Files.newBufferedReader(USERS_DB)) {
+            return GSON.fromJson(reader, Users.class);
         } catch (IOException exc) {
             LoggerController.writeLogsErrors(exc.getMessage());
             throw new IOException(LOGIN_FILE_ERROR_MESSAGE);
@@ -53,11 +46,8 @@ public class UsersController {
         FilesCreator.checkPath(USERS_DB, INITIAL_OBJECT);
         String jsonUsers = GSON.toJson(users);
 
-        try (RandomAccessFile file = new RandomAccessFile(USERS_DB.toFile(), "rw");
-             FileChannel channel = file.getChannel()) {
-            byte[] bytes = jsonUsers.getBytes(StandardCharsets.UTF_8);
-            MappedByteBuffer buffer = channel.map(FileChannel.MapMode.READ_WRITE, 0, bytes.length);
-            buffer.put(bytes);
+        try (BufferedWriter writer = Files.newBufferedWriter(USERS_DB)) {
+            writer.write(jsonUsers);
         } catch (IOException exc) {
             LoggerController.writeLogsErrors(exc.getMessage());
             throw new IOException(LOGIN_FILE_ERROR_MESSAGE);

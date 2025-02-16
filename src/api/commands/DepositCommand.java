@@ -1,5 +1,6 @@
 package api.commands;
 
+import api.commands.type.CommandType;
 import api.models.users.User;
 import api.models.users.Users;
 
@@ -22,7 +23,7 @@ public final class DepositCommand extends Command {
 
     @Override
     public String execute(String[] input, SelectionKey key) {
-        if (input.length != DEPOSIT_COMMAND_ARGUMENTS_LENGTH) {
+        if (input.length != CommandType.DEPOSIT.getArgs()) {
             return DEPOSIT_COMMAND_INVALID_USAGE;
         }
 

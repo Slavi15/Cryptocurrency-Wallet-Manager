@@ -1,5 +1,6 @@
 package api.commands;
 
+import api.commands.type.CommandType;
 import api.fetch.CryptoAPIClient;
 import api.models.asset.Asset;
 import api.models.http.CryptoResponse;
@@ -27,7 +28,7 @@ public final class SummaryOverallCommand extends Command {
 
     @Override
     public String execute(String[] input, SelectionKey key) {
-        if (input.length != LIST_SUMMARY_HELP_LOGOUT_COMMAND_ARGUMENTS_LENGTH) {
+        if (input.length != CommandType.SUMMARY_OVERALL.getArgs()) {
             return SUMMARY_OVERALL_INVALID_USAGE;
         }
 

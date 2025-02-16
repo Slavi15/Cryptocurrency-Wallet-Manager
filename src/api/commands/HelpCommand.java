@@ -1,5 +1,7 @@
 package api.commands;
 
+import api.commands.type.CommandType;
+
 import java.nio.channels.SelectionKey;
 
 public final class HelpCommand extends Command {
@@ -8,7 +10,7 @@ public final class HelpCommand extends Command {
 
     @Override
     public String execute(String[] input, SelectionKey key) {
-        if (input.length != LIST_SUMMARY_HELP_LOGOUT_COMMAND_ARGUMENTS_LENGTH) {
+        if (input.length != CommandType.HELP.getArgs()) {
             return HELP_COMMAND_INVALID_USAGE;
         }
 

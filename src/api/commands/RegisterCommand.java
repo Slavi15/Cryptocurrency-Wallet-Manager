@@ -1,5 +1,6 @@
 package api.commands;
 
+import api.commands.type.CommandType;
 import api.models.users.User;
 import api.models.users.Users;
 
@@ -27,7 +28,7 @@ public final class RegisterCommand extends Command {
 
     @Override
     public String execute(String[] input, SelectionKey key) {
-        if (input.length != REGISTER_COMMAND_ARGUMENTS_LENGTH) {
+        if (input.length != CommandType.REGISTER.getArgs()) {
             return REGISTER_COMMAND_INVALID_COMMAND_USAGE;
         }
 

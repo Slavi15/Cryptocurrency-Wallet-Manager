@@ -1,5 +1,6 @@
 package api.commands;
 
+import api.commands.type.CommandType;
 import api.controllers.LoggerController;
 import api.fetch.CryptoAPIClient;
 import api.models.asset.Asset;
@@ -33,7 +34,7 @@ public final class SellCommand extends Command {
 
     @Override
     public String execute(String[] input, SelectionKey key) {
-        if (input.length != SELL_COMMAND_ARGUMENTS_LENGTH) {
+        if (input.length != CommandType.SELL.getArgs()) {
             return SELL_COMMAND_INVALID_USAGE;
         }
 
