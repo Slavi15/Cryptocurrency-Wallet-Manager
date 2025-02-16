@@ -8,8 +8,8 @@ import java.nio.channels.SelectionKey;
 
 public final class ListCommand extends Command {
 
-    private static final String LIST_COMMAND_INVALID_USAGE = "Usage: list-offerings";
-    private static final String LIST_COMMAND_INVALID_PAGES = "You must provide valid page and page size sizes!";
+    private static final String LIST_COMMAND_INVALID_USAGE = "Usage: list-offerings --page=<page> --size=<size>";
+    private static final String LIST_COMMAND_INVALID_PAGES = "You must provide valid page and page size!";
     private static final String LIST_COMMAND_NOT_LOGGED_IN = "You must login before listing offerings!";
 
     private final CryptoAPIClient cryptoAPIClient;
