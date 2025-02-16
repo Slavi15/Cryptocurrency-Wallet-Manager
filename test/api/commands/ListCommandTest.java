@@ -17,7 +17,7 @@ import java.util.List;
 
 public class ListCommandTest {
 
-    private static final String LIST_COMMAND_INVALID_USAGE = "Usage: list-offerings";
+    private static final String LIST_COMMAND_INVALID_USAGE = "Usage: list-offerings --page=<page> --size=<size>";
     private static final String LIST_COMMAND_NOT_LOGGED_IN = "You must login before listing offerings!";
 
     @InjectMocks
@@ -53,7 +53,7 @@ public class ListCommandTest {
     void testList_userNotLogged() {
         when(mockKey.attachment()).thenReturn(null);
 
-        String[] input = { };
+        String[] input = { "--page=1", "--size=20" };
         String result = listCommand.execute(input, mockKey);
 
         assertEquals(LIST_COMMAND_NOT_LOGGED_IN, result);
@@ -75,11 +75,11 @@ public class ListCommandTest {
         when(this.mockAsset2.isCrypto()).thenReturn(1);
         when(this.mockAsset2.amount()).thenReturn(0.0);
 
-        when(this.httpClient.getCryptoAssets(1, 10)).thenReturn(
+        when(this.httpClient.getCryptoAssets(1, 20)).thenReturn(
             new CryptoResponse(List.of(this.mockAsset1, this.mockAsset2))
         );
 
-        String[] input = { };
+        String[] input = { "--page=1", "--size=20" };
         String result = listCommand.execute(input, mockKey);
 
         String expected = "Cryptocurrency exchange:" + System.lineSeparator() +
