@@ -6,7 +6,7 @@ public enum CommandType {
     DEPOSIT("deposit-money", 1),
     BUY("buy", 2),
     SELL("sell", 1),
-    LIST("list-offerings", 0),
+    LIST("list-offerings", 2),
     SUMMARY("get-wallet-summary", 0),
     SUMMARY_OVERALL("get-wallet-overall-summary", 0),
     HELP("help", 0),

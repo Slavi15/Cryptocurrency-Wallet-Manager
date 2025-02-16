@@ -9,8 +9,6 @@ import java.util.Map;
 
 public class CryptoAPIClient extends CryptoAPIHttpClient {
 
-    private static final int MAX_RESULTS = 100;
-
     public CryptoAPIClient(String apiKey) {
         super(apiKey);
     }
@@ -20,10 +18,17 @@ public class CryptoAPIClient extends CryptoAPIHttpClient {
     }
 
     public CryptoResponse getCryptoAssets() {
+        return super.cryptoAssets.get(ASSETS_ENDPOINT);
+    }
+
+    public CryptoResponse getCryptoAssets(int page, int pageSize) {
+        int toSkip = (page - 1) * pageSize;
+
         List<Asset> assets = super.cryptoAssets.get(ASSETS_ENDPOINT)
             .assets()
             .stream()
-            .limit(MAX_RESULTS)
+            .skip(toSkip)
+            .limit(pageSize)
             .toList();
 
         return new CryptoResponse(assets);

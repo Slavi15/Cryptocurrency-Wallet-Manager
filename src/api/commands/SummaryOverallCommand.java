@@ -5,6 +5,8 @@ import api.fetch.CryptoAPIClient;
 import api.models.asset.Asset;
 import api.models.http.CryptoResponse;
 import api.models.users.User;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.nio.channels.SelectionKey;
 import java.util.concurrent.atomic.AtomicReference;
@@ -19,6 +21,7 @@ public final class SummaryOverallCommand extends Command {
         "Total income: $%f" + System.lineSeparator() +
         "Total expenses: $%f" + System.lineSeparator() +
         "Overall earnings: $%f" + System.lineSeparator();
+    private static final Log log = LogFactory.getLog(SummaryOverallCommand.class);
 
     private final CryptoAPIClient cryptoAPIClient;
 

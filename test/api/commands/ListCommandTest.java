@@ -75,7 +75,7 @@ public class ListCommandTest {
         when(this.mockAsset2.isCrypto()).thenReturn(1);
         when(this.mockAsset2.amount()).thenReturn(0.0);
 
-        when(this.httpClient.getCryptoAssets()).thenReturn(
+        when(this.httpClient.getCryptoAssets(1, 10)).thenReturn(
             new CryptoResponse(List.of(this.mockAsset1, this.mockAsset2))
         );
 
